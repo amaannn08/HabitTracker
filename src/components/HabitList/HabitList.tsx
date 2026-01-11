@@ -38,21 +38,21 @@ export function HabitList({ habits, isHabitCompleted, onToggle, onAdd, onDelete 
         </div>
       ) : null}
       
-      <ul className="list-none p-0 m-0 flex flex-col gap-1.5">
+      {/* Habits grid - 2 per row */}
+      <div className="grid grid-cols-2 gap-1.5 mb-1.5">
         {habits.map((habit) => (
-          <li key={habit.id}>
-            <HabitItem
-              habit={habit}
-              isCompleted={isHabitCompleted(habit.id)}
-              onToggle={onToggle}
-              onDelete={onDelete}
-            />
-          </li>
+          <HabitItem
+            key={habit.id}
+            habit={habit}
+            isCompleted={isHabitCompleted(habit.id)}
+            onToggle={onToggle}
+            onDelete={onDelete}
+          />
         ))}
-        <li>
-          <AddHabit onAdd={onAdd} />
-        </li>
-      </ul>
+      </div>
+      
+      {/* Add habit - full width */}
+      <AddHabit onAdd={onAdd} />
       
       {/* Hint for delete */}
       {habits.length > 0 && (
