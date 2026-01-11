@@ -78,9 +78,9 @@ export const HabitItem = memo(function HabitItem({ habit, isCompleted, onToggle,
       }}
       aria-pressed={isCompleted}
       className={`
-        flex flex-col items-center justify-center w-full py-3 px-2 rounded-xl cursor-pointer
+        flex items-center w-full py-2 px-2.5 rounded-lg cursor-pointer
         transition-all duration-150 ease-out select-none
-        text-center relative
+        gap-2 text-left
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400
         ${isCompleted 
           ? 'bg-emerald-600' 
@@ -88,19 +88,15 @@ export const HabitItem = memo(function HabitItem({ habit, isCompleted, onToggle,
         }
       `}
     >
-      {/* Checkmark indicator */}
-      {isCompleted && (
-        <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-white/25 flex items-center justify-center">
-          <svg viewBox="0 0 24 24" className="w-2.5 h-2.5 text-white">
-            <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-          </svg>
-        </div>
-      )}
-      
-      <span className="text-2xl leading-none select-none mb-1">{habit.emoji}</span>
-      <span className={`font-medium text-xs leading-tight ${isCompleted ? 'text-white' : 'text-zinc-200'}`}>
+      <span className="text-lg leading-none select-none">{habit.emoji}</span>
+      <span className={`flex-1 font-medium text-xs truncate ${isCompleted ? 'text-white' : 'text-zinc-200'}`}>
         {habit.name}
       </span>
+      {isCompleted && (
+        <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 text-white/70 flex-shrink-0">
+          <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+        </svg>
+      )}
     </button>
   );
 });
