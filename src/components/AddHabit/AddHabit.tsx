@@ -38,16 +38,15 @@ export function AddHabit({ onAdd }: AddHabitProps) {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="w-full py-4 px-5 rounded-2xl border-2 border-dashed border-slate-600 
-                   text-slate-400 hover:border-emerald-400 hover:text-emerald-400 hover:bg-slate-800
-                   active:scale-[0.98] transition-all duration-200
-                   flex items-center justify-center gap-2
-                   min-h-16 font-semibold"
+        className="w-full py-2 px-3 rounded-lg border border-dashed border-slate-600 
+                   text-slate-500 hover:border-emerald-400 hover:text-emerald-400
+                   active:scale-[0.98] transition-all duration-150
+                   flex items-center justify-center gap-1.5 text-sm font-medium"
       >
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
         </svg>
-        Add New Habit
+        Add Habit
       </button>
     );
   }
@@ -55,10 +54,10 @@ export function AddHabit({ onAdd }: AddHabitProps) {
   return (
     <form 
       onSubmit={handleSubmit} 
-      className="bg-slate-800 rounded-2xl border border-slate-700 p-5 animate-in slide-in-from-top-2 duration-200 shadow-xl"
+      className="bg-slate-800/80 rounded-xl border border-slate-700/50 p-3 animate-in slide-in-from-top-2 duration-200"
     >
-      <div className="mb-5">
-        <label htmlFor="habit-name" className="block text-sm text-slate-400 mb-2 font-semibold">
+      <div className="mb-3">
+        <label htmlFor="habit-name" className="block text-xs text-slate-400 mb-1.5 font-medium">
           Habit Name
         </label>
         <input
@@ -67,27 +66,27 @@ export function AddHabit({ onAdd }: AddHabitProps) {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="e.g., Read for 30 minutes"
+          placeholder="e.g., Read 30 min"
           maxLength={50}
-          className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl
-                     text-slate-100 placeholder-slate-500 text-base font-medium
-                     focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30
+          className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg
+                     text-slate-100 placeholder-slate-500 text-sm
+                     focus:outline-none focus:border-emerald-500
                      transition-all"
         />
       </div>
       
-      <div className="mb-5">
-        <label className="block text-sm text-slate-400 mb-3 font-semibold">Choose an Emoji</label>
-        <div className="grid grid-cols-8 gap-2">
+      <div className="mb-3">
+        <label className="block text-xs text-slate-400 mb-1.5 font-medium">Emoji</label>
+        <div className="grid grid-cols-8 gap-1">
           {EMOJI_OPTIONS.map((e) => (
             <button
               key={e}
               type="button"
               onClick={() => setEmoji(e)}
-              className={`aspect-square rounded-xl text-2xl flex items-center justify-center
-                         transition-all duration-150 active:scale-90
+              className={`aspect-square rounded-lg text-base flex items-center justify-center
+                         transition-all duration-100 active:scale-90
                          ${emoji === e 
-                           ? 'bg-emerald-500 scale-110 shadow-lg shadow-emerald-500/50' 
+                           ? 'bg-emerald-500 ring-2 ring-emerald-400' 
                            : 'bg-slate-700 hover:bg-slate-600'}`}
             >
               {e}
@@ -96,24 +95,23 @@ export function AddHabit({ onAdd }: AddHabitProps) {
         </div>
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex gap-2">
         <button
           type="button"
           onClick={handleCancel}
-          className="flex-1 py-3 px-4 rounded-xl bg-slate-700 text-slate-300
-                     hover:bg-slate-600 active:scale-[0.98] transition-all font-semibold"
+          className="flex-1 py-2 px-3 rounded-lg bg-slate-700 text-slate-300 text-sm
+                     hover:bg-slate-600 active:scale-[0.98] transition-all font-medium"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={!name.trim()}
-          className="flex-1 py-3 px-4 rounded-xl bg-emerald-500 text-white
-                     hover:bg-emerald-600 active:scale-[0.98] transition-all font-semibold
-                     shadow-lg shadow-emerald-500/30
-                     disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 disabled:shadow-none"
+          className="flex-1 py-2 px-3 rounded-lg bg-emerald-500 text-white text-sm
+                     hover:bg-emerald-600 active:scale-[0.98] transition-all font-medium
+                     disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Add Habit
+          Add
         </button>
       </div>
     </form>

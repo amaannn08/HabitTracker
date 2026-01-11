@@ -20,7 +20,7 @@ function App() {
   return (
     <div className="min-h-screen min-h-dvh bg-slate-900 max-w-md mx-auto">
       <Header date={today} currentStreak={currentStreak} longestStreak={longestStreak} />
-      <main className="pb-8 pb-[calc(2rem+env(safe-area-inset-bottom,0px))]">
+      <main className="pb-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]">
         <HabitList
           habits={habits}
           isHabitCompleted={isHabitCompleted}
