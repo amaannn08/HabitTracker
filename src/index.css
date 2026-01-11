@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+/* Google Font - Bitter for headings */
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&display=swap');
+
+/* Custom CSS variables for theming */
+@theme {
+  --font-bitter: 'Bitter', Georgia, serif;
+  --color-accent: #10b981;
+  --color-completed-bg: rgba(16, 185, 129, 0.1);
+}
+
+/* Base styles */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selection color */
+::selection {
+  background: var(--color-accent);
+  color: #0f172a;
+}
