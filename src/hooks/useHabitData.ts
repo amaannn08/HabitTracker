@@ -125,7 +125,7 @@ export function useHabitData() {
     [data.entries, data.habits.length]
   );
 
-  // Calculate current streak (consecutive days with ALL habits completed)
+  // Calculate current streak (consecutive days with at least 1 habit completed)
   const currentStreak = useMemo(() => {
     if (data.habits.length === 0) return 0;
 
@@ -142,11 +142,11 @@ export function useHabitData() {
         data.habits.some(h => h.id === id)
       ).length : 0;
       
-      // All habits must be completed for the day to count
-      if (completedCount === data.habits.length) {
+      // At least 1 habit must be completed for the day to count
+      if (completedCount >= 1) {
         streak++;
       } else {
-        // If today is not complete yet, don't break the streak
+        // If today has no completions yet, don't break the streak
         if (i === 0) continue;
         break;
       }
@@ -155,7 +155,7 @@ export function useHabitData() {
     return streak;
   }, [data.entries, data.habits]);
 
-  // Calculate longest streak
+  // Calculate longest streak (at least 1 habit completed per day)
   const longestStreak = useMemo(() => {
     if (data.habits.length === 0 || data.entries.length === 0) return 0;
 
@@ -169,7 +169,8 @@ export function useHabitData() {
         data.habits.some(h => h.id === id)
       ).length;
       
-      if (completedCount === data.habits.length) {
+      // At least 1 habit completed counts
+      if (completedCount >= 1) {
         const entryDate = new Date(entry.date + 'T00:00:00');
         
         if (prevDate) {
