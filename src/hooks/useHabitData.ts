@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useLocalStorage } from './useLocalStorage';
-import type { HabitData, DailyEntry } from '../types';
+import type { HabitData, DailyEntry, Habit } from '../types';
 import { DEFAULT_HABITS } from '../types';
 
 // Get today's date in YYYY-MM-DD format
@@ -46,12 +46,10 @@ export function useHabitData() {
         let updatedCompletedHabits: string[];
 
         if (existingEntry) {
-          // Toggle the habit in existing entry
           updatedCompletedHabits = existingEntry.completedHabits.includes(habitId)
             ? existingEntry.completedHabits.filter((id) => id !== habitId)
             : [...existingEntry.completedHabits, habitId];
         } else {
-          // Create new entry with this habit
           updatedCompletedHabits = [habitId];
         }
 
@@ -60,7 +58,6 @@ export function useHabitData() {
           completedHabits: updatedCompletedHabits,
         };
 
-        // Update or append the entry
         const updatedEntries =
           existingEntryIndex >= 0
             ? prev.entries.map((e, i) => (i === existingEntryIndex ? updatedEntry : e))
@@ -70,6 +67,35 @@ export function useHabitData() {
       });
     },
     [setData, today]
+  );
+
+  // Add a new habit
+  const addHabit = useCallback(
+    (name: string, emoji: string) => {
+      const id = name.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
+      const newHabit: Habit = { id, name, emoji };
+      setData((prev) => ({
+        ...prev,
+        habits: [...prev.habits, newHabit],
+      }));
+    },
+    [setData]
+  );
+
+  // Delete a habit
+  const deleteHabit = useCallback(
+    (habitId: string) => {
+      setData((prev) => ({
+        ...prev,
+        habits: prev.habits.filter((h) => h.id !== habitId),
+        // Also remove from all entries
+        entries: prev.entries.map((e) => ({
+          ...e,
+          completedHabits: e.completedHabits.filter((id) => id !== habitId),
+        })),
+      }));
+    },
+    [setData]
   );
 
   // Check if a habit is completed today
@@ -99,13 +125,85 @@ export function useHabitData() {
     [data.entries, data.habits.length]
   );
 
+  // Calculate current streak (consecutive days with ALL habits completed)
+  const currentStreak = useMemo(() => {
+    if (data.habits.length === 0) return 0;
+
+    let streak = 0;
+    const today = new Date();
+    
+    for (let i = 0; i <= 365; i++) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toISOString().split('T')[0];
+      
+      const entry = data.entries.find((e) => e.date === dateStr);
+      const completedCount = entry ? entry.completedHabits.filter(id => 
+        data.habits.some(h => h.id === id)
+      ).length : 0;
+      
+      // All habits must be completed for the day to count
+      if (completedCount === data.habits.length) {
+        streak++;
+      } else {
+        // If today is not complete yet, don't break the streak
+        if (i === 0) continue;
+        break;
+      }
+    }
+    
+    return streak;
+  }, [data.entries, data.habits]);
+
+  // Calculate longest streak
+  const longestStreak = useMemo(() => {
+    if (data.habits.length === 0 || data.entries.length === 0) return 0;
+
+    const sortedEntries = [...data.entries].sort((a, b) => a.date.localeCompare(b.date));
+    let longest = 0;
+    let current = 0;
+    let prevDate: Date | null = null;
+
+    for (const entry of sortedEntries) {
+      const completedCount = entry.completedHabits.filter(id => 
+        data.habits.some(h => h.id === id)
+      ).length;
+      
+      if (completedCount === data.habits.length) {
+        const entryDate = new Date(entry.date + 'T00:00:00');
+        
+        if (prevDate) {
+          const diffDays = Math.round((entryDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24));
+          if (diffDays === 1) {
+            current++;
+          } else {
+            current = 1;
+          }
+        } else {
+          current = 1;
+        }
+        
+        prevDate = entryDate;
+        longest = Math.max(longest, current);
+      } else {
+        current = 0;
+        prevDate = null;
+      }
+    }
+
+    return longest;
+  }, [data.entries, data.habits]);
+
   return {
     habits: data.habits,
     todayEntry,
     toggleHabit,
+    addHabit,
+    deleteHabit,
     isHabitCompleted,
     getCompletionHistory,
+    currentStreak,
+    longestStreak,
     today,
   };
 }
-

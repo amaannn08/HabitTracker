@@ -1,26 +1,36 @@
-import { useMemo } from 'react';
 import { Header } from './components/Header/Header';
 import { HabitList } from './components/HabitList/HabitList';
 import { ProgressChart } from './components/ProgressChart/ProgressChart';
+import { StreakCounter } from './components/StreakCounter/StreakCounter';
 import { useHabitData } from './hooks/useHabitData';
 import './App.css';
 
 function App() {
-  const { habits, today, toggleHabit, isHabitCompleted, getCompletionHistory } = useHabitData();
-
-  // Memoize chart data to avoid recalculation on every render
-  const chartData = useMemo(() => getCompletionHistory(7), [getCompletionHistory]);
+  const { 
+    habits, 
+    today, 
+    toggleHabit, 
+    addHabit,
+    deleteHabit,
+    isHabitCompleted, 
+    getCompletionHistory,
+    currentStreak,
+    longestStreak,
+  } = useHabitData();
 
   return (
     <div className="min-h-screen min-h-dvh bg-slate-900 max-w-md mx-auto">
       <Header date={today} />
       <main className="pb-8 pb-[calc(2rem+env(safe-area-inset-bottom,0px))]">
+        <StreakCounter currentStreak={currentStreak} longestStreak={longestStreak} />
         <HabitList
           habits={habits}
           isHabitCompleted={isHabitCompleted}
           onToggle={toggleHabit}
+          onAdd={addHabit}
+          onDelete={deleteHabit}
         />
-        <ProgressChart data={chartData} />
+        <ProgressChart getCompletionHistory={getCompletionHistory} />
       </main>
     </div>
   );
