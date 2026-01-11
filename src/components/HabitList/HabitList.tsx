@@ -24,7 +24,7 @@ export function HabitList({ habits, isHabitCompleted, onToggle, onAdd, onDelete 
           <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
             completedCount === totalCount 
               ? 'bg-emerald-500 text-white' 
-              : 'bg-slate-700 text-slate-300'
+              : 'bg-zinc-800 text-zinc-300'
           }`}>
             {completedCount}/{totalCount}
           </span>
@@ -32,7 +32,7 @@ export function HabitList({ habits, isHabitCompleted, onToggle, onAdd, onDelete 
       </div>
       
       {habits.length === 0 ? (
-        <div className="text-center py-6 text-slate-400">
+        <div className="text-center py-6 text-zinc-500">
           <div className="text-3xl mb-2">📝</div>
           <p className="text-sm">Add your first habit!</p>
         </div>
@@ -56,7 +56,7 @@ export function HabitList({ habits, isHabitCompleted, onToggle, onAdd, onDelete 
       
       {/* Hint for delete */}
       {habits.length > 0 && (
-        <p className="text-[10px] text-slate-600 text-center mt-2">
+        <p className="text-[10px] text-zinc-600 text-center mt-2">
           Long press to delete
         </p>
       )}

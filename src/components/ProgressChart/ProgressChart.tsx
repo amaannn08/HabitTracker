@@ -19,8 +19,8 @@ interface ProgressChartProps {
 
 // Color scale based on completion percentage
 function getColor(percentage: number, isFuture?: boolean): string {
-  if (isFuture) return '#0f172a';               // slate-900 - future (darker)
-  if (percentage === 0) return '#1e293b';       // slate-800 - empty
+  if (isFuture) return '#09090b';               // zinc-950 - future (darker)
+  if (percentage === 0) return '#18181b';       // zinc-900 - empty
   if (percentage < 25) return '#854d0e';        // yellow-900
   if (percentage < 50) return '#ca8a04';        // yellow-600
   if (percentage < 75) return '#84cc16';        // lime-500
@@ -92,18 +92,18 @@ export function ProgressChart({ getCompletionHistory }: ProgressChartProps) {
     <section className="py-3 px-4">
       <h2 className="text-sm font-bold text-white mb-2">Progress</h2>
 
-      <div className="bg-slate-800/60 rounded-lg p-2 border border-slate-700/40">
+      <div className="bg-zinc-900 rounded-lg p-2 border border-zinc-800">
         {/* Months grid */}
         <div className="flex justify-center gap-3">
           {monthsData.map((month, monthIndex) => (
             <div key={monthIndex} className="flex flex-col items-center">
               {/* Month name */}
-              <div className="text-[9px] font-semibold text-slate-400 mb-1">{month.name}</div>
+              <div className="text-[9px] font-semibold text-zinc-400 mb-1">{month.name}</div>
               
               {/* Day labels */}
               <div className="grid grid-cols-7 gap-[2px] mb-0.5">
                 {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
-                  <div key={i} className="w-4 text-center text-[6px] font-medium text-slate-600">
+                  <div key={i} className="w-4 text-center text-[6px] font-medium text-zinc-600">
                     {day}
                   </div>
                 ))}
@@ -134,10 +134,10 @@ export function ProgressChart({ getCompletionHistory }: ProgressChartProps) {
         </div>
 
         {/* Legend */}
-        <div className="flex items-center justify-center gap-1.5 mt-2 text-[7px] text-slate-500">
+        <div className="flex items-center justify-center gap-1.5 mt-2 text-[7px] text-zinc-500">
           <span>Less</span>
           <div className="flex gap-[2px]">
-            {['#1e293b', '#854d0e', '#ca8a04', '#84cc16', '#22c55e', '#10b981'].map((color) => (
+            {['#18181b', '#854d0e', '#ca8a04', '#84cc16', '#22c55e', '#10b981'].map((color) => (
               <div key={color} className="w-2 h-2 rounded-[2px]" style={{ backgroundColor: color }} />
             ))}
           </div>
@@ -148,7 +148,7 @@ export function ProgressChart({ getCompletionHistory }: ProgressChartProps) {
       {/* Tooltip */}
       {tooltip && (
         <div
-          className="fixed z-50 bg-slate-800 border border-slate-600 rounded-lg px-2 py-1.5 text-[10px] shadow-xl pointer-events-none transform -translate-x-1/2 -translate-y-full"
+          className="fixed z-50 bg-zinc-900 border border-zinc-700 rounded-lg px-2 py-1.5 text-[10px] shadow-xl pointer-events-none transform -translate-x-1/2 -translate-y-full"
           style={{ left: tooltip.x, top: tooltip.y - 8 }}
         >
           <div className="font-semibold text-white">
@@ -157,7 +157,7 @@ export function ProgressChart({ getCompletionHistory }: ProgressChartProps) {
               day: 'numeric',
             })}
           </div>
-          <div className="text-slate-300 mt-0.5">
+          <div className="text-zinc-300 mt-0.5">
             {tooltip.data.completed}/{tooltip.data.total} • {tooltip.data.percentage}%
           </div>
         </div>

@@ -43,8 +43,8 @@ export const HabitItem = memo(function HabitItem({ habit, isCompleted, onToggle,
       <div className="flex gap-2 animate-in fade-in duration-200">
         <button
           onClick={() => setShowActions(false)}
-          className="flex-1 py-2 px-3 rounded-lg bg-slate-800 border border-slate-700
-                     text-slate-300 text-sm font-medium transition-all hover:bg-slate-700
+          className="flex-1 py-2 px-3 rounded-lg bg-zinc-900 border border-zinc-800
+                     text-zinc-300 text-sm font-medium transition-all hover:bg-zinc-800
                      flex items-center justify-center gap-1.5 active:scale-[0.98]"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -54,8 +54,8 @@ export const HabitItem = memo(function HabitItem({ habit, isCompleted, onToggle,
         </button>
         <button
           onClick={handleDelete}
-          className="flex-1 py-2 px-3 rounded-lg bg-red-500 border border-red-400
-                     text-white text-sm font-medium transition-all hover:bg-red-600
+          className="flex-1 py-2 px-3 rounded-lg bg-red-600 border border-red-500
+                     text-white text-sm font-medium transition-all hover:bg-red-700
                      flex items-center justify-center gap-1.5 active:scale-[0.98]"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -86,13 +86,13 @@ export const HabitItem = memo(function HabitItem({ habit, isCompleted, onToggle,
         gap-3 text-left
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400
         ${isCompleted 
-          ? 'bg-gradient-to-r from-emerald-500 to-green-500' 
-          : 'bg-slate-800/80 hover:bg-slate-700/80 active:scale-[0.98]'
+          ? 'bg-gradient-to-r from-emerald-600 to-green-600' 
+          : 'bg-zinc-900 hover:bg-zinc-800 active:scale-[0.98]'
         }
       `}
     >
       <span className="text-xl leading-none select-none">{habit.emoji}</span>
-      <span className={`flex-1 font-medium text-sm ${isCompleted ? 'text-white' : 'text-slate-100'}`}>
+      <span className={`flex-1 font-medium text-sm ${isCompleted ? 'text-white' : 'text-zinc-100'}`}>
         {habit.name}
       </span>
       <div
@@ -101,7 +101,7 @@ export const HabitItem = memo(function HabitItem({ habit, isCompleted, onToggle,
           transition-all duration-150
           ${isCompleted 
             ? 'bg-white/25' 
-            : 'border-2 border-slate-600'
+            : 'border-2 border-zinc-700'
           }
         `}
       >
