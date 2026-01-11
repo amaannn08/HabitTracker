@@ -5,6 +5,7 @@ interface ChartDataPoint {
   completed: number;
   total: number;
   percentage: number;
+  isFuture?: boolean;
 }
 
 interface ProgressChartProps {
@@ -12,8 +13,9 @@ interface ProgressChartProps {
 }
 
 // Color scale based on completion percentage
-function getColor(percentage: number): string {
-  if (percentage === 0) return '#1e293b';      // slate-800 - empty
+function getColor(percentage: number, isFuture?: boolean): string {
+  if (isFuture) return '#0f172a';               // slate-900 - future (darker)
+  if (percentage === 0) return '#1e293b';       // slate-800 - empty
   if (percentage < 25) return '#854d0e';        // yellow-900
   if (percentage < 50) return '#ca8a04';        // yellow-600
   if (percentage < 75) return '#84cc16';        // lime-500
@@ -22,7 +24,7 @@ function getColor(percentage: number): string {
 }
 
 function getMonthName(date: Date): string {
-  return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  return date.toLocaleDateString('en-US', { month: 'short' });
 }
 
 function getDaysInMonth(year: number, month: number): number {
@@ -54,14 +56,16 @@ export function ProgressChart({ getCompletionHistory }: ProgressChartProps) {
     for (let day = 1; day <= daysInMonth; day++) {
       const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
       const dataPoint = historyData.find(d => d.date === dateStr);
-      
-      // Only show if the date is not in the future
       const currentDate = new Date(dateStr + 'T00:00:00');
-      if (currentDate <= today) {
-        monthDays.push(dataPoint || { date: dateStr, completed: 0, total: 0, percentage: 0 });
-      } else {
-        monthDays.push(null);
-      }
+      const isFuture = currentDate > today;
+      
+      monthDays.push({
+        date: dateStr,
+        completed: dataPoint?.completed || 0,
+        total: dataPoint?.total || 0,
+        percentage: dataPoint?.percentage || 0,
+        isFuture,
+      });
     }
 
     return { name: monthName, days: monthDays };
@@ -73,55 +77,52 @@ export function ProgressChart({ getCompletionHistory }: ProgressChartProps) {
   };
 
   return (
-    <section className="py-6 px-4">
-      <h2 className="text-base font-bold text-white mb-4">
-        Progress — {monthData.name}
+    <section className="py-3 px-4">
+      <h2 className="text-sm font-bold text-white mb-2">
+        {monthData.name} Progress
       </h2>
 
-      <div className="bg-slate-800 rounded-xl p-4 border border-slate-700 shadow-md">
-        <div className="space-y-1.5">
-          {/* Day labels */}
-          <div className="grid grid-cols-7 gap-2 mb-1">
-            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-              <div key={day} className="text-center text-xs font-semibold text-slate-500">
-                {day}
-              </div>
+      <div className="bg-slate-800/60 rounded-xl p-3 border border-slate-700/40">
+        {/* Day labels */}
+        <div className="grid grid-cols-7 gap-1 mb-1">
+          {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
+            <div key={i} className="text-center text-[9px] font-medium text-slate-500">
+              {day}
+            </div>
+          ))}
+        </div>
+
+        {/* Calendar grid */}
+        <div className="grid grid-cols-7 gap-1">
+          {monthData.days.map((day, dayIndex) => (
+            <div
+              key={dayIndex}
+              className={`aspect-square rounded-sm transition-all duration-150 ${
+                day 
+                  ? day.isFuture 
+                    ? 'opacity-30' 
+                    : 'cursor-pointer hover:ring-1 hover:ring-white/40 hover:scale-105'
+                  : 'opacity-0'
+              }`}
+              style={{
+                backgroundColor: day ? getColor(day.percentage, day.isFuture) : 'transparent',
+              }}
+              onMouseEnter={(e) => day && !day.isFuture && handleCellHover(e, day)}
+              onMouseLeave={() => setTooltip(null)}
+            />
+          ))}
+        </div>
+
+        {/* Legend */}
+        <div className="flex items-center justify-center gap-2 mt-2 text-[9px] text-slate-500">
+          <span>Less</span>
+          <div className="flex gap-0.5">
+            {['#1e293b', '#854d0e', '#ca8a04', '#84cc16', '#22c55e', '#10b981'].map((color) => (
+              <div key={color} className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: color }} />
             ))}
           </div>
-
-          {/* Calendar grid */}
-          <div className="grid grid-cols-7 gap-2">
-            {monthData.days.map((day, dayIndex) => (
-              <div
-                key={dayIndex}
-                className={`aspect-square rounded-md transition-all ${
-                  day 
-                    ? 'cursor-pointer hover:ring-2 hover:ring-slate-400 hover:scale-105' 
-                    : 'invisible'
-                }`}
-                style={{
-                  backgroundColor: day ? getColor(day.percentage) : 'transparent',
-                }}
-                onMouseEnter={(e) => day && handleCellHover(e, day)}
-                onMouseLeave={() => setTooltip(null)}
-              />
-            ))}
-          </div>
+          <span>More</span>
         </div>
-      </div>
-
-      {/* Legend */}
-      <div className="flex items-center justify-center gap-2 mt-4 text-xs text-slate-400 font-medium">
-        <span>Less</span>
-        <div className="flex gap-1">
-          <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: '#1e293b' }} />
-          <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: '#854d0e' }} />
-          <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: '#ca8a04' }} />
-          <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: '#84cc16' }} />
-          <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: '#22c55e' }} />
-          <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: '#10b981' }} />
-        </div>
-        <span>More</span>
       </div>
 
       {/* Tooltip */}

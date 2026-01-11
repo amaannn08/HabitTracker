@@ -40,26 +40,25 @@ export const HabitItem = memo(function HabitItem({ habit, isCompleted, onToggle,
 
   if (showActions) {
     return (
-      <div className="flex gap-3 animate-in fade-in duration-200">
+      <div className="flex gap-2 animate-in fade-in duration-200">
         <button
           onClick={() => setShowActions(false)}
-          className="flex-1 py-4 px-5 rounded-2xl bg-slate-800 border border-slate-700
-                     text-slate-300 font-semibold transition-all hover:bg-slate-700
-                     min-h-16 flex items-center justify-center gap-2 active:scale-[0.98]"
+          className="flex-1 py-2 px-3 rounded-lg bg-slate-800 border border-slate-700
+                     text-slate-300 text-sm font-medium transition-all hover:bg-slate-700
+                     flex items-center justify-center gap-1.5 active:scale-[0.98]"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
           </svg>
           Cancel
         </button>
         <button
           onClick={handleDelete}
-          className="flex-1 py-4 px-5 rounded-2xl bg-red-500 border border-red-400
-                     text-white font-semibold transition-all hover:bg-red-600
-                     min-h-16 flex items-center justify-center gap-2 active:scale-[0.98]
-                     shadow-lg shadow-red-500/30"
+          className="flex-1 py-2 px-3 rounded-lg bg-red-500 border border-red-400
+                     text-white text-sm font-medium transition-all hover:bg-red-600
+                     flex items-center justify-center gap-1.5 active:scale-[0.98]"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} 
                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
           </svg>
@@ -82,32 +81,32 @@ export const HabitItem = memo(function HabitItem({ habit, isCompleted, onToggle,
       }}
       aria-pressed={isCompleted}
       className={`
-        flex items-center w-full py-4 px-5 rounded-2xl cursor-pointer
-        transition-all duration-200 ease-out select-none
-        min-h-16 gap-4 text-left shadow-lg
-        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900
+        flex items-center w-full py-2.5 px-3 rounded-xl cursor-pointer
+        transition-all duration-150 ease-out select-none
+        gap-3 text-left
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400
         ${isCompleted 
-          ? 'bg-gradient-to-r from-emerald-500 to-green-500 shadow-emerald-500/30' 
-          : 'bg-slate-800 shadow-slate-900/50 hover:bg-slate-750 active:scale-[0.98]'
+          ? 'bg-gradient-to-r from-emerald-500 to-green-500' 
+          : 'bg-slate-800/80 hover:bg-slate-700/80 active:scale-[0.98]'
         }
       `}
     >
-      <span className="text-3xl leading-none select-none">{habit.emoji}</span>
-      <span className={`flex-1 font-semibold text-base ${isCompleted ? 'text-white' : 'text-slate-100'}`}>
+      <span className="text-xl leading-none select-none">{habit.emoji}</span>
+      <span className={`flex-1 font-medium text-sm ${isCompleted ? 'text-white' : 'text-slate-100'}`}>
         {habit.name}
       </span>
       <div
         className={`
-          w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
-          transition-all duration-200
+          w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0
+          transition-all duration-150
           ${isCompleted 
-            ? 'bg-white/20 backdrop-blur-sm' 
-            : 'bg-slate-700 border-2 border-slate-600'
+            ? 'bg-white/25' 
+            : 'border-2 border-slate-600'
           }
         `}
       >
         {isCompleted && (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white">
+          <svg viewBox="0 0 24 24" className="w-3 h-3 text-white">
             <path
               fill="currentColor"
               d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"

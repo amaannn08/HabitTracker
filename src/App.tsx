@@ -1,7 +1,6 @@
 import { Header } from './components/Header/Header';
 import { HabitList } from './components/HabitList/HabitList';
 import { ProgressChart } from './components/ProgressChart/ProgressChart';
-import { StreakCounter } from './components/StreakCounter/StreakCounter';
 import { useHabitData } from './hooks/useHabitData';
 import './App.css';
 
@@ -20,9 +19,8 @@ function App() {
 
   return (
     <div className="min-h-screen min-h-dvh bg-slate-900 max-w-md mx-auto">
-      <Header date={today} />
+      <Header date={today} currentStreak={currentStreak} longestStreak={longestStreak} />
       <main className="pb-8 pb-[calc(2rem+env(safe-area-inset-bottom,0px))]">
-        <StreakCounter currentStreak={currentStreak} longestStreak={longestStreak} />
         <HabitList
           habits={habits}
           isHabitCompleted={isHabitCompleted}

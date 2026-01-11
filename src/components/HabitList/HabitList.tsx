@@ -15,13 +15,13 @@ export function HabitList({ habits, isHabitCompleted, onToggle, onAdd, onDelete 
   const totalCount = habits.length;
 
   return (
-    <section className="py-6 px-4">
-      <div className="flex items-center justify-between mb-5">
-        <h2 className="text-lg font-bold text-white">
-          Today's Habits
+    <section className="py-3 px-4">
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="text-sm font-bold text-white">
+          Today
         </h2>
         {totalCount > 0 && (
-          <span className={`text-sm font-semibold px-3 py-1.5 rounded-full ${
+          <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
             completedCount === totalCount 
               ? 'bg-emerald-500 text-white' 
               : 'bg-slate-700 text-slate-300'
@@ -32,13 +32,13 @@ export function HabitList({ habits, isHabitCompleted, onToggle, onAdd, onDelete 
       </div>
       
       {habits.length === 0 ? (
-        <div className="text-center py-12 text-slate-400">
-          <div className="text-5xl mb-4">📝</div>
-          <p className="text-base">Add your first habit to get started!</p>
+        <div className="text-center py-6 text-slate-400">
+          <div className="text-3xl mb-2">📝</div>
+          <p className="text-sm">Add your first habit!</p>
         </div>
       ) : null}
       
-      <ul className="list-none p-0 m-0 flex flex-col gap-3">
+      <ul className="list-none p-0 m-0 flex flex-col gap-1.5">
         {habits.map((habit) => (
           <li key={habit.id}>
             <HabitItem
@@ -56,8 +56,8 @@ export function HabitList({ habits, isHabitCompleted, onToggle, onAdd, onDelete 
       
       {/* Hint for delete */}
       {habits.length > 0 && (
-        <p className="text-xs text-slate-600 text-center mt-5">
-          Long press a habit to delete it
+        <p className="text-[10px] text-slate-600 text-center mt-2">
+          Long press to delete
         </p>
       )}
     </section>
