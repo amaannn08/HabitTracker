@@ -18,9 +18,9 @@ function App() {
   } = useHabitData();
 
   return (
-    <div className="bg-slate-900 max-w-md mx-auto">
+    <div className="min-h-screen bg-black max-w-md mx-auto">
       <Header date={today} currentStreak={currentStreak} longestStreak={longestStreak} />
-      <main className="pb-2">
+      <main className="pb-6">
         <HabitList
           habits={habits}
           isHabitCompleted={isHabitCompleted}

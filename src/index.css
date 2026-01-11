@@ -9,21 +9,14 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-html, body, #root {
-  height: 100%;
-  overflow: hidden;
-  background: #0f172a;
-}
-
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin: 0;
-  padding: 0;
+  background: #000000;
 }
 
 /* Selection color */
 ::selection {
-  background: #10b981;
-  color: #0f172a;
+  background: #d4af37;
+  color: #000000;
 }
