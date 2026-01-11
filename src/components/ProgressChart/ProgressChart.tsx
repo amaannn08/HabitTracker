@@ -19,8 +19,8 @@ interface ProgressChartProps {
 
 // Color scale based on completion percentage
 function getColor(percentage: number, isFuture?: boolean): string {
-  if (isFuture) return '#09090b';               // zinc-950 - future (darker)
-  if (percentage === 0) return '#18181b';       // zinc-900 - empty
+  if (isFuture) return '#27272a';               // zinc-800 - future
+  if (percentage === 0) return '#3f3f46';       // zinc-700 - empty (visible)
   if (percentage < 25) return '#854d0e';        // yellow-900
   if (percentage < 50) return '#ca8a04';        // yellow-600
   if (percentage < 75) return '#84cc16';        // lime-500
@@ -137,7 +137,7 @@ export function ProgressChart({ getCompletionHistory }: ProgressChartProps) {
         <div className="flex items-center justify-center gap-1.5 mt-2 text-[7px] text-zinc-500">
           <span>Less</span>
           <div className="flex gap-[2px]">
-            {['#18181b', '#854d0e', '#ca8a04', '#84cc16', '#22c55e', '#10b981'].map((color) => (
+            {['#3f3f46', '#854d0e', '#ca8a04', '#84cc16', '#22c55e', '#10b981'].map((color) => (
               <div key={color} className="w-2 h-2 rounded-[2px]" style={{ backgroundColor: color }} />
             ))}
           </div>
