@@ -1,18 +1,12 @@
 @import "tailwindcss";
 
-/* Google Font - Bitter for headings */
-@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&display=swap');
-
-/* Custom CSS variables for theming */
-@theme {
-  --font-bitter: 'Bitter', Georgia, serif;
-  --color-accent: #10b981;
-  --color-completed-bg: rgba(16, 185, 129, 0.1);
-}
+/* Modern font - Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /* Base styles */
 * {
   -webkit-tap-highlight-color: transparent;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
@@ -22,6 +16,6 @@ body {
 
 /* Selection color */
 ::selection {
-  background: var(--color-accent);
+  background: #10b981;
   color: #0f172a;
 }
